@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db/urlshortener
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - BASE_URL=http://localhost:8000
+    depends_on:
+      - db
+      - redis
+    networks:
+      - urlshortener-network
+
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=urlshortener
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - urlshortener-network
+
+  redis:
+    image: redis:alpine
+    networks:
+      - urlshortener-network
+
+volumes:
+  postgres_data:
+
+networks:
+  urlshortener-network:
+

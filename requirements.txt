@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+redis
+validators
+pydantic
+fastapi-limiter
+python-dotenv
+pytest
+httpx
